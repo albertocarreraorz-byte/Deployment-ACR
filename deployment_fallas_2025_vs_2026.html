@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deployment de fallas L12 | 2025 vs 2026</title>
+  <style>
+    :root {
+      --bg:#f8fafc; --panel:#ffffff; --ink:#0f172a; --muted:#64748b; --line:#dbe3ef;
+      --blue:#2563eb; --orange:#f97316; --green:#0f766e; --red:#b91c1c;
+    }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Arial, Helvetica, sans-serif; background:var(--bg); color:var(--ink); }
+    header { padding:34px 42px 24px; background:#0f172a; color:white; }
+    header h1 { margin:0 0 8px; font-size:32px; letter-spacing:0; }
+    header p { margin:0; color:#cbd5e1; max-width:980px; line-height:1.45; }
+    main { padding:28px 42px 48px; max-width:1280px; margin:auto; }
+    section { margin:0 0 28px; }
+    h2 { font-size:20px; margin:0 0 14px; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+    .metric, .panel { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:16px; box-shadow:0 1px 2px rgba(15,23,42,.04); }
+    .metric span { color:var(--muted); font-size:13px; display:block; margin-bottom:7px; }
+    .metric strong { font-size:28px; display:block; margin-bottom:5px; }
+    .metric small { color:var(--muted); line-height:1.35; }
+    .insights { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    .insight { border-left:4px solid var(--blue); background:white; border-radius:8px; padding:14px 16px; line-height:1.45; border-top:1px solid var(--line); border-right:1px solid var(--line); border-bottom:1px solid var(--line); }
+    table { width:100%; border-collapse:collapse; font-size:13px; }
+    th,td { padding:10px 9px; border-bottom:1px solid var(--line); text-align:right; vertical-align:middle; }
+    th:first-child, td:first-child { text-align:left; }
+    th { color:#334155; background:#f1f5f9; font-weight:700; }
+    td.label { max-width:280px; }
+    .bar-track { position:relative; height:26px; background:#eef2f7; border-radius:6px; overflow:hidden; min-width:170px; }
+    .bar { position:absolute; inset:0 auto 0 0; background:linear-gradient(90deg,var(--blue),#38bdf8); }
+    .bar-track b { position:relative; display:block; padding:6px 8px; color:#0f172a; text-align:right; }
+    .chart { background:white; border:1px solid var(--line); border-radius:8px; padding:14px; overflow-x:auto; }
+    svg { width:100%; min-width:760px; height:auto; font-size:12px; fill:#475569; }
+    .comparison table td:nth-child(2), .comparison table td:nth-child(3) { font-weight:700; }
+    .method { color:var(--muted); font-size:12px; line-height:1.5; }
+    .pill { display:inline-block; padding:4px 8px; border-radius:999px; background:#e0f2fe; color:#075985; font-weight:700; font-size:12px; margin-left:8px; }
+    @media (max-width:900px) { header, main { padding-left:18px; padding-right:18px; } .metrics, .grid, .insights { grid-template-columns:1fr; } header h1 { font-size:26px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Deployment de fallas L12 <span class="pill">2025 vs 2026</span></h1>
+    <p>Dashboard generado desde el archivo DP L12 2025 &amp; 2026.xlsx. Clasifica los paros por tipo de falla y compara volumen, tiempo de paro, MTTR, MTBF y disponibilidad operacional.</p>
+  </header>
+  <main>
+    <section>
+      <h2>Resumen ejecutivo</h2>
+      <div class="insights"><div class='insight'>En el total disponible, 2026 acumula 3,118.1 h de paro contra 7,005.3 h en 2025; la lectura debe tratarse como parcial porque 2026 llega hasta 23/06/2026.</div><div class='insight'>En periodo comparable YTD, las horas de paro cambian -6.4%, los eventos cambian -14.6% y el MTTR cambia +9.6%.</div><div class='insight'>El tipo dominante por horas es PRODUCCION con 8,390.7 h, equivalente a 82.9% del tiempo formal.</div><div class='insight'>MTBF se calcula como horas operativas entre eventos: (tiempo calendario observado - paro) / numero de eventos. MTTR es tiempo de paro / numero de eventos.</div></div>
+    </section>
+    <section>
+      <h2>KPIs por periodo</h2>
+      <div class="metrics"><article class='metric'><span>2025 completo</span><strong>7,005.3 h</strong><small>17,592 eventos | MTTR 23.9 min | MTBF 0.10 h | Disp. 19.81%</small></article><article class='metric'><span>2026 disponible</span><strong>3,118.1 h</strong><small>7,370 eventos | MTTR 25.4 min | MTBF 0.14 h | Disp. 24.90%</small></article><article class='metric'><span>2025 YTD a 23/06</span><strong>3,330.9 h</strong><small>8,626 eventos | MTTR 23.2 min | MTBF 0.10 h | Disp. 19.78%</small></article><article class='metric'><span>2026 YTD a 23/06</span><strong>3,118.1 h</strong><small>7,370 eventos | MTTR 25.4 min | MTBF 0.14 h | Disp. 24.90%</small></article></div>
+    </section>
+    <section>
+      <h2>Horas de paro por mes</h2>
+      <div class="chart"><svg viewBox='0 0 920 300' role='img' aria-label='Horas de paro por mes'><line x1='54' y1='256' x2='896' y2='256' stroke='#cbd5e1'/><text x='89.1' y='282' text-anchor='middle'>ene</text><rect x='71.5' y='44.2' width='19.6' height='211.8' rx='3' fill='#2563eb'><title>2025 ene: 626.8 h</title></rect><rect x='97.2' y='42.8' width='19.6' height='213.2' rx='3' fill='#f97316'><title>2026 ene: 630.9 h</title></rect><text x='159.2' y='282' text-anchor='middle'>feb</text><rect x='141.7' y='62.5' width='19.6' height='193.5' rx='3' fill='#2563eb'><title>2025 feb: 572.6 h</title></rect><rect x='167.4' y='79.0' width='19.6' height='177.0' rx='3' fill='#f97316'><title>2026 feb: 523.6 h</title></rect><text x='229.4' y='282' text-anchor='middle'>mar</text><rect x='211.9' y='38.8' width='19.6' height='217.2' rx='3' fill='#2563eb'><title>2025 mar: 642.6 h</title></rect><rect x='237.5' y='44.1' width='19.6' height='211.9' rx='3' fill='#f97316'><title>2026 mar: 627.0 h</title></rect><text x='299.6' y='282' text-anchor='middle'>abr</text><rect x='282.0' y='35.7' width='19.6' height='220.3' rx='3' fill='#2563eb'><title>2025 abr: 651.9 h</title></rect><rect x='307.7' y='104.8' width='19.6' height='151.2' rx='3' fill='#f97316'><title>2026 abr: 447.2 h</title></rect><text x='369.8' y='282' text-anchor='middle'>may</text><rect x='352.2' y='134.8' width='19.6' height='121.2' rx='3' fill='#2563eb'><title>2025 may: 358.6 h</title></rect><rect x='377.9' y='108.4' width='19.6' height='147.6' rx='3' fill='#f97316'><title>2026 may: 436.6 h</title></rect><text x='439.9' y='282' text-anchor='middle'>jun</text><rect x='422.4' y='48.7' width='19.6' height='207.3' rx='3' fill='#2563eb'><title>2025 jun: 613.4 h</title></rect><rect x='448.0' y='102.9' width='19.6' height='153.1' rx='3' fill='#f97316'><title>2026 jun: 452.9 h</title></rect><text x='510.1' y='282' text-anchor='middle'>jul</text><rect x='492.5' y='56.6' width='19.6' height='199.4' rx='3' fill='#2563eb'><title>2025 jul: 589.9 h</title></rect><rect x='518.2' y='256.0' width='19.6' height='0.0' rx='3' fill='#f97316'><title>2026 jul: 0.0 h</title></rect><text x='580.3' y='282' text-anchor='middle'>ago</text><rect x='562.7' y='34.0' width='19.6' height='222.0' rx='3' fill='#2563eb'><title>2025 ago: 656.8 h</title></rect><rect x='588.4' y='256.0' width='19.6' height='0.0' rx='3' fill='#f97316'><title>2026 ago: 0.0 h</title></rect><text x='650.4' y='282' text-anchor='middle'>sep</text><rect x='632.9' y='58.8' width='19.6' height='197.2' rx='3' fill='#2563eb'><title>2025 sep: 583.3 h</title></rect><rect x='658.5' y='256.0' width='19.6' height='0.0' rx='3' fill='#f97316'><title>2026 sep: 0.0 h</title></rect><text x='720.6' y='282' text-anchor='middle'>oct</text><rect x='703.0' y='58.9' width='19.6' height='197.1' rx='3' fill='#2563eb'><title>2025 oct: 583.0 h</title></rect><rect x='728.7' y='256.0' width='19.6' height='0.0' rx='3' fill='#f97316'><title>2026 oct: 0.0 h</title></rect><text x='790.8' y='282' text-anchor='middle'>nov</text><rect x='773.2' y='62.3' width='19.6' height='193.7' rx='3' fill='#2563eb'><title>2025 nov: 573.2 h</title></rect><rect x='798.9' y='256.0' width='19.6' height='0.0' rx='3' fill='#f97316'><title>2026 nov: 0.0 h</title></rect><text x='860.9' y='282' text-anchor='middle'>dic</text><rect x='843.4' y='69.0' width='19.6' height='187.0' rx='3' fill='#2563eb'><title>2025 dic: 553.2 h</title></rect><rect x='869.0' y='256.0' width='19.6' height='0.0' rx='3' fill='#f97316'><title>2026 dic: 0.0 h</title></rect><line x1='54' y1='256.0' x2='896' y2='256.0' stroke='#e2e8f0'/><text x='44' y='260.0' text-anchor='end'>0</text><line x1='54' y1='200.5' x2='896' y2='200.5' stroke='#e2e8f0'/><text x='44' y='204.5' text-anchor='end'>164</text><line x1='54' y1='145.0' x2='896' y2='145.0' stroke='#e2e8f0'/><text x='44' y='149.0' text-anchor='end'>328</text><line x1='54' y1='89.5' x2='896' y2='89.5' stroke='#e2e8f0'/><text x='44' y='93.5' text-anchor='end'>493</text><line x1='54' y1='34.0' x2='896' y2='34.0' stroke='#e2e8f0'/><text x='44' y='38.0' text-anchor='end'>657</text><g class='legend'><rect x='690' y='16' width='13' height='13' fill='#2563eb'/><text x='710' y='27'>2025</text><rect x='770' y='16' width='13' height='13' fill='#f97316'/><text x='790' y='27'>2026</text></g></svg></div>
+    </section>
+    <section class="grid">
+      <div class="panel">
+        <h2>Clasificación por tipo de falla</h2>
+        <table>
+<thead><tr><th>Clasificación</th><th>Magnitud</th><th>Eventos</th><th>MTTR min</th><th>% horas</th></tr></thead><tbody>
+<tr>
+<td class='label'>PRODUCCION</td>
+<td><div class='bar-track'><span class='bar' style='width:100.0%'></span><b>8,391</b></div></td>
+<td>9,830</td>
+<td>51.2</td>
+<td>82.9%</td>
+</tr>
+<tr>
+<td class='label'>P. OTROS DEPTOS.</td>
+<td><div class='bar-track'><span class='bar' style='width:8.6%'></span><b>718</b></div></td>
+<td>9,862</td>
+<td>4.4</td>
+<td>7.1%</td>
+</tr>
+<tr>
+<td class='label'>Orden de Actividades Extraordinarias L12</td>
+<td><div class='bar-track'><span class='bar' style='width:3.5%'></span><b>291</b></div></td>
+<td>58</td>
+<td>301.0</td>
+<td>2.9%</td>
+</tr>
+<tr>
+<td class='label'>PERDIDA VELOCIDAD Y MICROPAROS</td>
+<td><div class='bar-track'><span class='bar' style='width:3.4%'></span><b>287</b></div></td>
+<td>3,570</td>
+<td>4.8</td>
+<td>2.8%</td>
+</tr>
+<tr>
+<td class='label'>P. POR EQUIPO</td>
+<td><div class='bar-track'><span class='bar' style='width:2.8%'></span><b>237</b></div></td>
+<td>1,004</td>
+<td>14.2</td>
+<td>2.3%</td>
+</tr>
+<tr>
+<td class='label'>P. PLANEADO DURANTE PROD.</td>
+<td><div class='bar-track'><span class='bar' style='width:1.6%'></span><b>135</b></div></td>
+<td>436</td>
+<td>18.6</td>
+<td>1.3%</td>
+</tr>
+<tr>
+<td class='label'>CAMBIO DE PRESENTACION</td>
+<td><div class='bar-track'><span class='bar' style='width:0.6%'></span><b>49</b></div></td>
+<td>158</td>
+<td>18.7</td>
+<td>0.5%</td>
+</tr>
+<tr>
+<td class='label'>P. FUERZA MOTRIZ</td>
+<td><div class='bar-track'><span class='bar' style='width:0.1%'></span><b>8</b></div></td>
+<td>25</td>
+<td>18.5</td>
+<td>0.1%</td>
+</tr>
+<tr>
+<td class='label'>P. POR OPERACION</td>
+<td><div class='bar-track'><span class='bar' style='width:0.0%'></span><b>3</b></div></td>
+<td>10</td>
+<td>20.9</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td class='label'>INICIO/FIN CORRIDA</td>
+<td><div class='bar-track'><span class='bar' style='width:0.0%'></span><b>2</b></div></td>
+<td>4</td>
+<td>33.8</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td class='label'>AUTORIZADO</td>
+<td><div class='bar-track'><span class='bar' style='width:0.0%'></span><b>2</b></div></td>
+<td>5</td>
+<td>24.3</td>
+<td>0.0%</td>
+</tr>
+</tbody></table>
+      </div>
+      <div class="panel">
+        <h2>Subclaves principales</h2>
+        <table>
+<thead><tr><th>Clasificación</th><th>Magnitud</th><th>Eventos</th><th>MTTR min</th></tr></thead><tbody>
+<tr>
+<td class='label'>Sin clasificar</td>
+<td><div class='bar-track'><span class='bar' style='width:100.0%'></span><b>8,862</b></div></td>
+<td>14,048</td>
+<td>37.8</td>
+</tr>
+<tr>
+<td class='label'>Orden de Actividades Extraordinarias L12</td>
+<td><div class='bar-track'><span class='bar' style='width:3.3%'></span><b>291</b></div></td>
+<td>58</td>
+<td>301.0</td>
+</tr>
+<tr>
+<td class='label'>CAJA HUMEDA</td>
+<td><div class='bar-track'><span class='bar' style='width:2.1%'></span><b>183</b></div></td>
+<td>1,944</td>
+<td>5.7</td>
+</tr>
+<tr>
+<td class='label'>ENVASE DEFECTUOSO</td>
+<td><div class='bar-track'><span class='bar' style='width:1.7%'></span><b>152</b></div></td>
+<td>2,532</td>
+<td>3.6</td>
+</tr>
+<tr>
+<td class='label'>CAJA MAL ESTADO</td>
+<td><div class='bar-track'><span class='bar' style='width:1.6%'></span><b>141</b></div></td>
+<td>1,955</td>
+<td>4.3</td>
+</tr>
+<tr>
+<td class='label'>ENVASE INLAVABLE</td>
+<td><div class='bar-track'><span class='bar' style='width:0.9%'></span><b>80</b></div></td>
+<td>1,550</td>
+<td>3.1</td>
+</tr>
+<tr>
+<td class='label'>ACARREO DE CAJA</td>
+<td><div class='bar-track'><span class='bar' style='width:0.9%'></span><b>77</b></div></td>
+<td>1,379</td>
+<td>3.4</td>
+</tr>
+<tr>
+<td class='label'>SANEAMIENTO</td>
+<td><div class='bar-track'><span class='bar' style='width:0.7%'></span><b>66</b></div></td>
+<td>300</td>
+<td>13.1</td>
+</tr>
+<tr>
+<td class='label'>CAMBIO DE FORMATO</td>
+<td><div class='bar-track'><span class='bar' style='width:0.6%'></span><b>49</b></div></td>
+<td>158</td>
+<td>18.7</td>
+</tr>
+<tr>
+<td class='label'>ARRANQUE Y PARO</td>
+<td><div class='bar-track'><span class='bar' style='width:0.5%'></span><b>47</b></div></td>
+<td>100</td>
+<td>28.1</td>
+</tr>
+<tr>
+<td class='label'>CORTE ENERGIA EXT.</td>
+<td><div class='bar-track'><span class='bar' style='width:0.3%'></span><b>30</b></div></td>
+<td>59</td>
+<td>31.0</td>
+</tr>
+<tr>
+<td class='label'>PRUEBA LLENADO</td>
+<td><div class='bar-track'><span class='bar' style='width:0.2%'></span><b>22</b></div></td>
+<td>33</td>
+<td>40.3</td>
+</tr>
+</tbody></table>
+      </div>
+    </section>
+    <section class="panel comparison">
+      <h2>Comparativo por tipo: horas 2025 vs 2026 disponible</h2>
+      <table>
+        <thead><tr><th>Tipo de falla</th><th>2025 h</th><th>2026 h</th><th>Delta</th><th>Total h</th></tr></thead>
+        <tbody>
+          <tr><td>PRODUCCION</td><td>5,715.3</td><td>2,675.4</td><td>-53.2%</td><td>8,390.7</td></tr><tr><td>P. OTROS DEPTOS.</td><td>548.9</td><td>169.2</td><td>-69.2%</td><td>718.1</td></tr><tr><td>Orden de Actividades Extraordinarias L12</td><td>215.0</td><td>76.0</td><td>-64.7%</td><td>291.0</td></tr><tr><td>PERDIDA VELOCIDAD Y MICROPAROS</td><td>202.6</td><td>84.3</td><td>-58.4%</td><td>287.0</td></tr><tr><td>P. POR EQUIPO</td><td>172.5</td><td>64.4</td><td>-62.7%</td><td>236.8</td></tr><tr><td>P. PLANEADO DURANTE PROD.</td><td>106.7</td><td>28.4</td><td>-73.4%</td><td>135.1</td></tr><tr><td>CAMBIO DE PRESENTACION</td><td>32.6</td><td>16.7</td><td>-48.7%</td><td>49.3</td></tr><tr><td>P. FUERZA MOTRIZ</td><td>6.9</td><td>0.8</td><td>-88.1%</td><td>7.7</td></tr><tr><td>P. POR OPERACION</td><td>3.4</td><td>0.1</td><td>-98.4%</td><td>3.5</td></tr><tr><td>INICIO/FIN CORRIDA</td><td>0.0</td><td>2.3</td><td>n/a</td><td>2.3</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="panel">
+      <h2>Metodología de mantenimiento</h2>
+      <p class="method">MTTR: tiempo medio de reparación o recuperación por evento. MTBF: tiempo medio entre fallas, calculado sobre tiempo operativo observado. La disponibilidad se estima como tiempo operativo / tiempo calendario observado. Para 2026 el archivo contiene datos hasta 23/06/2026; por eso se incluye comparativo YTD contra 2025 al mismo día y mes.</p>
+      <pre class="method">{
+  &quot;fuente&quot;: &quot;DP L12 2025 &amp; 2026.xlsx&quot;,
+  &quot;hoja&quot;: &quot;Sheet1&quot;,
+  &quot;duracion&quot;: &quot;Tiempo formal; si falta, Minutos de paro&quot;,
+  &quot;mttr&quot;: &quot;Tiempo total de paro / numero de eventos&quot;,
+  &quot;mtbf&quot;: &quot;(Tiempo calendario observado - tiempo de paro) / numero de eventos&quot;,
+  &quot;periodo_2026&quot;: &quot;2026-01-02 a 2026-06-23&quot;
+}</pre>
+    </section>
+  </main>
+</body>
+</html>
