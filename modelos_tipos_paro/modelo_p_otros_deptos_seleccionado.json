@@ -1,0 +1,37 @@
+{
+  "tipo_paro": "P. OTROS DEPTOS.",
+  "modelo_seleccionado": "xgboost_log_minutos",
+  "criterio": "menor MAE en validacion temporal",
+  "candidatos": {
+    "xgboost_minutos": {
+      "mae_min": 32.281602765438606,
+      "rmse_min": 39.48288600758662,
+      "mape_pct": 972.150605867311,
+      "r2": 0.0781453114082451
+    },
+    "xgboost_log_minutos": {
+      "mae_min": 26.845638575366902,
+      "rmse_min": 34.83371740911068,
+      "mape_pct": 471.7474106370439,
+      "r2": 0.28246293894240837
+    },
+    "media_movil_7d": {
+      "mae_min": 30.33635854341736,
+      "rmse_min": 37.955667682754545,
+      "mape_pct": 512.7410241392622,
+      "r2": 0.14808167523559446
+    },
+    "media_movil_14d": {
+      "mae_min": 30.05814425770308,
+      "rmse_min": 38.32281698225722,
+      "mape_pct": 448.1718250179469,
+      "r2": 0.13152056493447617
+    },
+    "media_movil_28d": {
+      "mae_min": 31.28735994397759,
+      "rmse_min": 39.74396736608965,
+      "mape_pct": 406.71137798465605,
+      "r2": 0.06591343849273301
+    }
+  }
+}

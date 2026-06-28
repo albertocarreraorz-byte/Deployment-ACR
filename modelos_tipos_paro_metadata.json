@@ -1,0 +1,363 @@
+{
+  "fuente": "DP L12 2025 & 2026.xlsx",
+  "objetivo": "Prediccion de minutos diarios de Tiempo formal por tipo de paro",
+  "tipos_modelados": [
+    "PERDIDA VELOCIDAD Y MICROPAROS",
+    "P. OTROS DEPTOS.",
+    "P. POR EQUIPO"
+  ],
+  "rango_datos": {
+    "inicio": "2025-01-02",
+    "fin": "2026-06-23",
+    "dias": 538
+  },
+  "modelos": [
+    {
+      "tipo": "PERDIDA VELOCIDAD Y MICROPAROS",
+      "archivo_modelo": "modelos_tipos_paro\\modelo_perdida_velocidad_y_microparos_seleccionado.json",
+      "modelo_seleccionado": "media_movil_14d",
+      "archivo_xgboost_minutos": "modelos_tipos_paro\\modelo_perdida_velocidad_y_microparos_xgboost_minutos.json",
+      "archivo_xgboost_log_minutos": "modelos_tipos_paro\\modelo_perdida_velocidad_y_microparos_xgboost_log_minutos.json",
+      "metricas": {
+        "mae_min": 19.673473389355745,
+        "rmse_min": 25.763447921610254,
+        "mape_pct": 127.29329471289785,
+        "r2": 0.12130749229346471
+      },
+      "metricas_candidatos": {
+        "xgboost_minutos": {
+          "mae_min": 30.261179336847043,
+          "rmse_min": 34.9728747370627,
+          "mape_pct": 239.47790011944275,
+          "r2": -0.6191669095204615
+        },
+        "xgboost_log_minutos": {
+          "mae_min": 20.38079429916307,
+          "rmse_min": 27.155130916766467,
+          "mape_pct": 105.185836237113,
+          "r2": 0.023813591297844328
+        },
+        "media_movil_7d": {
+          "mae_min": 19.921820728291316,
+          "rmse_min": 25.502924455487708,
+          "mape_pct": 122.60195580140618,
+          "r2": 0.13898855605347338
+        },
+        "media_movil_14d": {
+          "mae_min": 19.673473389355745,
+          "rmse_min": 25.763447921610254,
+          "mape_pct": 127.29329471289785,
+          "r2": 0.12130749229346471
+        },
+        "media_movil_28d": {
+          "mae_min": 19.99818977591036,
+          "rmse_min": 26.364127170443815,
+          "mape_pct": 131.84853743898606,
+          "r2": 0.07985610152194655
+        }
+      },
+      "baseline_media_28d": {
+        "mae_min": 19.99818977591036,
+        "rmse_min": 26.364127170443815,
+        "mape_pct": 131.84853743898606,
+        "r2": 0.07985610152194655
+      },
+      "top_subclaves": [
+        "Sin clasificar",
+        "Otros",
+        "OTROS",
+        "Fotoceldas. Dañado",
+        "Piston coronador dañado",
+        "Mesa de almoadillas dañado"
+      ],
+      "features": [
+        "dia_semana",
+        "mes",
+        "dia_mes",
+        "semana_anio",
+        "trimestre",
+        "es_fin_semana",
+        "dias_desde_inicio",
+        "sin_dia",
+        "cos_dia",
+        "sin_mes",
+        "cos_mes",
+        "target_lag_1d",
+        "eventos_lag_1d",
+        "target_lag_2d",
+        "eventos_lag_2d",
+        "target_lag_3d",
+        "eventos_lag_3d",
+        "target_lag_7d",
+        "eventos_lag_7d",
+        "target_lag_14d",
+        "eventos_lag_14d",
+        "target_lag_28d",
+        "eventos_lag_28d",
+        "target_media_7d",
+        "target_max_7d",
+        "target_suma_7d",
+        "eventos_media_7d",
+        "target_media_14d",
+        "target_max_14d",
+        "target_suma_14d",
+        "eventos_media_14d",
+        "target_media_28d",
+        "target_max_28d",
+        "target_suma_28d",
+        "eventos_media_28d",
+        "subclave_1_min_lag_1d",
+        "subclave_1_min_media_7d",
+        "subclave_1_min_suma_28d",
+        "subclave_2_min_lag_1d",
+        "subclave_2_min_media_7d",
+        "subclave_2_min_suma_28d",
+        "subclave_3_min_lag_1d",
+        "subclave_3_min_media_7d",
+        "subclave_3_min_suma_28d",
+        "subclave_4_min_lag_1d",
+        "subclave_4_min_media_7d",
+        "subclave_4_min_suma_28d",
+        "subclave_5_min_lag_1d",
+        "subclave_5_min_media_7d",
+        "subclave_5_min_suma_28d",
+        "subclave_6_min_lag_1d",
+        "subclave_6_min_media_7d",
+        "subclave_6_min_suma_28d"
+      ]
+    },
+    {
+      "tipo": "P. OTROS DEPTOS.",
+      "archivo_modelo": "modelos_tipos_paro\\modelo_p_otros_deptos_seleccionado.json",
+      "modelo_seleccionado": "xgboost_log_minutos",
+      "archivo_xgboost_minutos": "modelos_tipos_paro\\modelo_p_otros_deptos_xgboost_minutos.json",
+      "archivo_xgboost_log_minutos": "modelos_tipos_paro\\modelo_p_otros_deptos_xgboost_log_minutos.json",
+      "metricas": {
+        "mae_min": 26.845638575366902,
+        "rmse_min": 34.83371740911068,
+        "mape_pct": 471.7474106370439,
+        "r2": 0.28246293894240837
+      },
+      "metricas_candidatos": {
+        "xgboost_minutos": {
+          "mae_min": 32.281602765438606,
+          "rmse_min": 39.48288600758662,
+          "mape_pct": 972.150605867311,
+          "r2": 0.0781453114082451
+        },
+        "xgboost_log_minutos": {
+          "mae_min": 26.845638575366902,
+          "rmse_min": 34.83371740911068,
+          "mape_pct": 471.7474106370439,
+          "r2": 0.28246293894240837
+        },
+        "media_movil_7d": {
+          "mae_min": 30.33635854341736,
+          "rmse_min": 37.955667682754545,
+          "mape_pct": 512.7410241392622,
+          "r2": 0.14808167523559446
+        },
+        "media_movil_14d": {
+          "mae_min": 30.05814425770308,
+          "rmse_min": 38.32281698225722,
+          "mape_pct": 448.1718250179469,
+          "r2": 0.13152056493447617
+        },
+        "media_movil_28d": {
+          "mae_min": 31.28735994397759,
+          "rmse_min": 39.74396736608965,
+          "mape_pct": 406.71137798465605,
+          "r2": 0.06591343849273301
+        }
+      },
+      "baseline_media_28d": {
+        "mae_min": 31.28735994397759,
+        "rmse_min": 39.74396736608965,
+        "mape_pct": 406.71137798465605,
+        "r2": 0.06591343849273301
+      },
+      "top_subclaves": [
+        "CAJA HUMEDA",
+        "ENVASE DEFECTUOSO",
+        "CAJA MAL ESTADO",
+        "ENVASE INLAVABLE",
+        "ACARREO DE CAJA",
+        "CORTE ENERGIA EXT."
+      ],
+      "features": [
+        "dia_semana",
+        "mes",
+        "dia_mes",
+        "semana_anio",
+        "trimestre",
+        "es_fin_semana",
+        "dias_desde_inicio",
+        "sin_dia",
+        "cos_dia",
+        "sin_mes",
+        "cos_mes",
+        "target_lag_1d",
+        "eventos_lag_1d",
+        "target_lag_2d",
+        "eventos_lag_2d",
+        "target_lag_3d",
+        "eventos_lag_3d",
+        "target_lag_7d",
+        "eventos_lag_7d",
+        "target_lag_14d",
+        "eventos_lag_14d",
+        "target_lag_28d",
+        "eventos_lag_28d",
+        "target_media_7d",
+        "target_max_7d",
+        "target_suma_7d",
+        "eventos_media_7d",
+        "target_media_14d",
+        "target_max_14d",
+        "target_suma_14d",
+        "eventos_media_14d",
+        "target_media_28d",
+        "target_max_28d",
+        "target_suma_28d",
+        "eventos_media_28d",
+        "subclave_1_min_lag_1d",
+        "subclave_1_min_media_7d",
+        "subclave_1_min_suma_28d",
+        "subclave_2_min_lag_1d",
+        "subclave_2_min_media_7d",
+        "subclave_2_min_suma_28d",
+        "subclave_3_min_lag_1d",
+        "subclave_3_min_media_7d",
+        "subclave_3_min_suma_28d",
+        "subclave_4_min_lag_1d",
+        "subclave_4_min_media_7d",
+        "subclave_4_min_suma_28d",
+        "subclave_5_min_lag_1d",
+        "subclave_5_min_media_7d",
+        "subclave_5_min_suma_28d",
+        "subclave_6_min_lag_1d",
+        "subclave_6_min_media_7d",
+        "subclave_6_min_suma_28d"
+      ]
+    },
+    {
+      "tipo": "P. POR EQUIPO",
+      "archivo_modelo": "modelos_tipos_paro\\modelo_p_por_equipo_seleccionado.json",
+      "modelo_seleccionado": "xgboost_log_minutos",
+      "archivo_xgboost_minutos": "modelos_tipos_paro\\modelo_p_por_equipo_xgboost_minutos.json",
+      "archivo_xgboost_log_minutos": "modelos_tipos_paro\\modelo_p_por_equipo_xgboost_log_minutos.json",
+      "metricas": {
+        "mae_min": 24.324725791099027,
+        "rmse_min": 42.8486208245077,
+        "mape_pct": 71.69510059342714,
+        "r2": -0.11657081646530765
+      },
+      "metricas_candidatos": {
+        "xgboost_minutos": {
+          "mae_min": 37.1288888762044,
+          "rmse_min": 54.85121513059663,
+          "mape_pct": 199.99236887015263,
+          "r2": -0.8297218870982686
+        },
+        "xgboost_log_minutos": {
+          "mae_min": 24.324725791099027,
+          "rmse_min": 42.8486208245077,
+          "mape_pct": 71.69510059342714,
+          "r2": -0.11657081646530765
+        },
+        "media_movil_7d": {
+          "mae_min": 29.18310924369748,
+          "rmse_min": 42.610732424203775,
+          "mape_pct": 138.13869831623074,
+          "r2": -0.10420720226390734
+        },
+        "media_movil_14d": {
+          "mae_min": 29.453942577030816,
+          "rmse_min": 42.26038376516938,
+          "mape_pct": 157.6514041162514,
+          "r2": -0.08612409949365118
+        },
+        "media_movil_28d": {
+          "mae_min": 28.485458683473393,
+          "rmse_min": 41.41261153654114,
+          "mape_pct": 131.30883493845772,
+          "r2": -0.0429844036391096
+        }
+      },
+      "baseline_media_28d": {
+        "mae_min": 28.485458683473393,
+        "rmse_min": 41.41261153654114,
+        "mape_pct": 131.30883493845772,
+        "r2": -0.0429844036391096
+      },
+      "top_subclaves": [
+        "Sin clasificar",
+        "Otros",
+        "Conjunto motriz dañado",
+        "OTROS",
+        "COMPONENTES ELECTRICOS DAÑADOS",
+        "TRANSMISIÓN DAÑADA"
+      ],
+      "features": [
+        "dia_semana",
+        "mes",
+        "dia_mes",
+        "semana_anio",
+        "trimestre",
+        "es_fin_semana",
+        "dias_desde_inicio",
+        "sin_dia",
+        "cos_dia",
+        "sin_mes",
+        "cos_mes",
+        "target_lag_1d",
+        "eventos_lag_1d",
+        "target_lag_2d",
+        "eventos_lag_2d",
+        "target_lag_3d",
+        "eventos_lag_3d",
+        "target_lag_7d",
+        "eventos_lag_7d",
+        "target_lag_14d",
+        "eventos_lag_14d",
+        "target_lag_28d",
+        "eventos_lag_28d",
+        "target_media_7d",
+        "target_max_7d",
+        "target_suma_7d",
+        "eventos_media_7d",
+        "target_media_14d",
+        "target_max_14d",
+        "target_suma_14d",
+        "eventos_media_14d",
+        "target_media_28d",
+        "target_max_28d",
+        "target_suma_28d",
+        "eventos_media_28d",
+        "subclave_1_min_lag_1d",
+        "subclave_1_min_media_7d",
+        "subclave_1_min_suma_28d",
+        "subclave_2_min_lag_1d",
+        "subclave_2_min_media_7d",
+        "subclave_2_min_suma_28d",
+        "subclave_3_min_lag_1d",
+        "subclave_3_min_media_7d",
+        "subclave_3_min_suma_28d",
+        "subclave_4_min_lag_1d",
+        "subclave_4_min_media_7d",
+        "subclave_4_min_suma_28d",
+        "subclave_5_min_lag_1d",
+        "subclave_5_min_media_7d",
+        "subclave_5_min_suma_28d",
+        "subclave_6_min_lag_1d",
+        "subclave_6_min_media_7d",
+        "subclave_6_min_suma_28d"
+      ]
+    }
+  ],
+  "salidas": {
+    "reporte": "modelos_prediccion_tipos_paro.html",
+    "pronostico": "pronostico_tipos_paro_30_dias.csv",
+    "metadata": "modelos_tipos_paro_metadata.json"
+  }
+}

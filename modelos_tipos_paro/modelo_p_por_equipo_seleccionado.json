@@ -1,0 +1,37 @@
+{
+  "tipo_paro": "P. POR EQUIPO",
+  "modelo_seleccionado": "xgboost_log_minutos",
+  "criterio": "menor MAE en validacion temporal",
+  "candidatos": {
+    "xgboost_minutos": {
+      "mae_min": 37.1288888762044,
+      "rmse_min": 54.85121513059663,
+      "mape_pct": 199.99236887015263,
+      "r2": -0.8297218870982686
+    },
+    "xgboost_log_minutos": {
+      "mae_min": 24.324725791099027,
+      "rmse_min": 42.8486208245077,
+      "mape_pct": 71.69510059342714,
+      "r2": -0.11657081646530765
+    },
+    "media_movil_7d": {
+      "mae_min": 29.18310924369748,
+      "rmse_min": 42.610732424203775,
+      "mape_pct": 138.13869831623074,
+      "r2": -0.10420720226390734
+    },
+    "media_movil_14d": {
+      "mae_min": 29.453942577030816,
+      "rmse_min": 42.26038376516938,
+      "mape_pct": 157.6514041162514,
+      "r2": -0.08612409949365118
+    },
+    "media_movil_28d": {
+      "mae_min": 28.485458683473393,
+      "rmse_min": 41.41261153654114,
+      "mape_pct": 131.30883493845772,
+      "r2": -0.0429844036391096
+    }
+  }
+}

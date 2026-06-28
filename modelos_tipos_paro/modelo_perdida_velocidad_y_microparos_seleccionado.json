@@ -1,0 +1,37 @@
+{
+  "tipo_paro": "PERDIDA VELOCIDAD Y MICROPAROS",
+  "modelo_seleccionado": "media_movil_14d",
+  "criterio": "menor MAE en validacion temporal",
+  "candidatos": {
+    "xgboost_minutos": {
+      "mae_min": 30.261179336847043,
+      "rmse_min": 34.9728747370627,
+      "mape_pct": 239.47790011944275,
+      "r2": -0.6191669095204615
+    },
+    "xgboost_log_minutos": {
+      "mae_min": 20.38079429916307,
+      "rmse_min": 27.155130916766467,
+      "mape_pct": 105.185836237113,
+      "r2": 0.023813591297844328
+    },
+    "media_movil_7d": {
+      "mae_min": 19.921820728291316,
+      "rmse_min": 25.502924455487708,
+      "mape_pct": 122.60195580140618,
+      "r2": 0.13898855605347338
+    },
+    "media_movil_14d": {
+      "mae_min": 19.673473389355745,
+      "rmse_min": 25.763447921610254,
+      "mape_pct": 127.29329471289785,
+      "r2": 0.12130749229346471
+    },
+    "media_movil_28d": {
+      "mae_min": 19.99818977591036,
+      "rmse_min": 26.364127170443815,
+      "mape_pct": 131.84853743898606,
+      "r2": 0.07985610152194655
+    }
+  }
+}
