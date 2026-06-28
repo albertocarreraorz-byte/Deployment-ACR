@@ -1,0 +1,66 @@
+{
+  "fuente": "DP L12 2025 & 2026.xlsx",
+  "objetivo": "Predecir horas de paro diarias de Linea 12",
+  "rango_datos": {
+    "inicio": "2025-01-02",
+    "fin": "2026-06-23",
+    "dias": 538
+  },
+  "filas_entrenamiento": 408,
+  "filas_validacion": 102,
+  "features": [
+    "dia_semana",
+    "mes",
+    "dia_mes",
+    "semana_anio",
+    "trimestre",
+    "es_fin_semana",
+    "dias_desde_inicio",
+    "sin_dia",
+    "cos_dia",
+    "sin_mes",
+    "cos_mes",
+    "lag_1d",
+    "eventos_lag_1d",
+    "lag_2d",
+    "eventos_lag_2d",
+    "lag_3d",
+    "eventos_lag_3d",
+    "lag_7d",
+    "eventos_lag_7d",
+    "lag_14d",
+    "eventos_lag_14d",
+    "lag_21d",
+    "eventos_lag_21d",
+    "lag_28d",
+    "eventos_lag_28d",
+    "media_7d",
+    "max_7d",
+    "eventos_media_7d",
+    "media_14d",
+    "max_14d",
+    "eventos_media_14d",
+    "media_28d",
+    "max_28d",
+    "eventos_media_28d",
+    "paro_acumulado_7d",
+    "paro_acumulado_28d"
+  ],
+  "metricas_xgboost": {
+    "mae": 5.066820969226314,
+    "rmse": 6.777704740480006,
+    "mape": 39.384162801563264,
+    "r2": 0.424051406480042
+  },
+  "metricas_baseline_media_28d": {
+    "mae": 7.830294817927172,
+    "rmse": 9.183752560096735,
+    "mape": 49.1359705795884,
+    "r2": -0.057447412144659094
+  },
+  "salidas": {
+    "modelo": "modelo_xgboost_paros_l12.json",
+    "pronostico": "pronostico_paros_l12_30_dias.csv",
+    "reporte": "modelo_prediccion_paros_l12.html"
+  }
+}

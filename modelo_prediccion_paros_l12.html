@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modelo predictivo de paros L12</title>
+  <style>
+    :root { --bg:#f8fafc; --ink:#0f172a; --muted:#64748b; --line:#dbe3ef; --panel:#fff; --blue:#2563eb; --orange:#f97316; --green:#0f766e; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Arial, Helvetica, sans-serif; background:var(--bg); color:var(--ink); }
+    header { background:#111827; color:#fff; padding:34px 42px 24px; }
+    header h1 { margin:0 0 8px; font-size:32px; letter-spacing:0; }
+    header p { margin:0; color:#cbd5e1; line-height:1.45; max-width:980px; }
+    main { max-width:1240px; margin:auto; padding:28px 42px 48px; }
+    h2 { font-size:20px; margin:0 0 14px; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-bottom:28px; }
+    .metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-bottom:28px; }
+    .card, .panel { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:16px; box-shadow:0 1px 2px rgba(15,23,42,.04); }
+    .card span { color:var(--muted); display:block; font-size:13px; margin-bottom:7px; }
+    .card strong { display:block; font-size:28px; margin-bottom:5px; }
+    .card small, .note { color:var(--muted); line-height:1.45; }
+    .chart { background:white; border:1px solid var(--line); border-radius:8px; padding:14px; margin-bottom:28px; overflow-x:auto; }
+    svg { width:100%; min-width:820px; height:auto; font-size:12px; fill:#475569; }
+    table { width:100%; border-collapse:collapse; font-size:13px; }
+    th, td { border-bottom:1px solid var(--line); padding:10px 9px; text-align:right; }
+    th:first-child, td:first-child { text-align:left; }
+    th { background:#f1f5f9; color:#334155; }
+    .bar { position:relative; height:26px; background:#eef2f7; border-radius:6px; overflow:hidden; min-width:160px; }
+    .bar span { position:absolute; inset:0 auto 0 0; background:linear-gradient(90deg,var(--blue),#38bdf8); }
+    .bar b { position:relative; display:block; padding:6px 8px; text-align:right; }
+    .pill { display:inline-block; padding:4px 8px; border-radius:999px; background:#dcfce7; color:#166534; font-weight:700; font-size:12px; margin-left:8px; }
+    @media (max-width:900px) { header, main { padding-left:18px; padding-right:18px; } .metrics, .grid { grid-template-columns:1fr; } header h1 { font-size:26px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Modelo predictivo de paros L12 <span class="pill">XGBoost</span></h1>
+    <p>Predice horas de paro diarias con base en el histórico del archivo DP L12 2025 &amp; 2026.xlsx, usando variables calendario, eventos recientes y rezagos de paro.</p>
+  </header>
+  <main>
+    <section class="metrics">
+      <article class="card"><span>MAE validación</span><strong>5.07 h</strong><small>Error absoluto medio del modelo.</small></article>
+      <article class="card"><span>RMSE validación</span><strong>6.78 h</strong><small>Penaliza más los días con error alto.</small></article>
+      <article class="card"><span>R2 validación</span><strong>0.424</strong><small>Comparado contra la variabilidad del periodo de prueba.</small></article>
+      <article class="card"><span>Pronóstico 30 días</span><strong>486.4 h</strong><small>Promedio diario 16.21 h; pico el 2026-06-24.</small></article>
+    </section>
+    <section class="chart">
+      <h2>Real reciente, validación y pronóstico</h2>
+      <svg viewBox='0 0 980 330' role='img' aria-label='Pronostico de horas de paro'><line x1='56' y1='286.0' x2='956' y2='286.0' stroke='#e2e8f0'/><text x='46' y='290.0' text-anchor='end'>0</text><line x1='56' y1='222.0' x2='956' y2='222.0' stroke='#e2e8f0'/><text x='46' y='226.0' text-anchor='end'>6</text><line x1='56' y1='158.0' x2='956' y2='158.0' stroke='#e2e8f0'/><text x='46' y='162.0' text-anchor='end'>12</text><line x1='56' y1='94.0' x2='956' y2='94.0' stroke='#e2e8f0'/><text x='46' y='98.0' text-anchor='end'>18</text><line x1='56' y1='30.0' x2='956' y2='30.0' stroke='#e2e8f0'/><text x='46' y='34.0' text-anchor='end'>24</text><line x1='56' y1='286' x2='956' y2='286' stroke='#cbd5e1'/><path d='M56.0,33.0 L62.0,54.1 L68.1,33.0 L74.1,201.7 L80.2,33.0 L86.2,100.1 L92.2,33.0 L98.3,33.0 L104.3,34.8 L110.4,149.0 L116.4,32.0 L122.4,33.0 L128.5,33.0 L134.5,33.0 L140.6,33.0 L146.6,117.3 L152.6,141.3 L158.7,33.0 L164.7,33.0 L170.8,117.3 L176.8,33.0 L182.8,33.0 L188.9,33.0 L194.9,212.3 L201.0,180.6 L207.0,33.0 L213.0,37.6 L219.1,96.3 L225.1,38.7 L231.2,43.6 L237.2,215.3 L243.2,180.6 L249.3,33.0 L255.3,64.6 L261.4,33.0 L267.4,33.0 L273.4,33.3 L279.5,212.9 L285.5,286.0 L291.6,286.0 L297.6,286.0 L303.7,191.1 L309.7,117.3 L315.7,33.0 L321.8,201.7 L327.8,264.9 L333.9,117.3 L339.9,33.0 L345.9,33.0 L352.0,33.0 L358.0,36.9 L364.1,286.0 L370.1,286.0 L376.1,117.3 L382.2,33.0 L388.2,96.3 L394.3,33.0 L400.3,48.9 L406.3,286.0 L412.4,210.2 L418.4,33.0 L424.5,33.0 L430.5,33.0 L436.5,117.3 L442.6,33.0 L448.6,54.1 L454.7,286.0 L460.7,201.7 L466.7,33.0 L472.8,216.7 L478.8,117.3 L484.9,33.0 L490.9,33.0 L496.9,33.0 L503.0,33.0 L509.0,212.2 L515.1,286.0 L521.1,286.0 L527.1,286.0 L533.2,286.0 L539.2,286.0 L545.3,286.0 L551.3,286.0 L557.3,286.0 L563.4,117.3 L569.4,35.2 L575.5,33.0 L581.5,33.0 L587.5,33.0 L593.6,117.3 L599.6,33.8 L605.7,117.3 L611.7,33.0 L617.7,123.8 L623.8,34.4 L629.8,33.0 L635.9,32.7 L641.9,102.7 L647.9,33.0 L654.0,122.2 L660.0,133.0 L666.1,33.0 L672.1,117.3 L678.1,33.0 L684.2,33.0 L690.2,117.3 L696.3,33.0 L702.3,174.8 L708.3,212.2 L714.4,33.0 L720.4,35.6 L726.5,96.3 L732.5,33.0 L738.6,43.6 L744.6,164.4 L750.6,33.0 L756.7,33.0 L762.7,117.3 L768.8,37.0 L774.8,33.0' fill='none' stroke='#2563eb' stroke-width='2.4'/><path d='M164.7,56.5 L170.8,59.1 L176.8,65.3 L182.8,52.5 L188.9,68.3 L194.9,93.4 L201.0,153.3 L207.0,64.6 L213.0,56.3 L219.1,90.0 L225.1,129.0 L231.2,83.6 L237.2,131.7 L243.2,124.0 L249.3,63.9 L255.3,61.2 L261.4,84.6 L267.4,49.8 L273.4,63.4 L279.5,112.4 L285.5,195.4 L291.6,214.7 L297.6,202.7 L303.7,212.9 L309.7,44.4 L315.7,34.3 L321.8,55.6 L327.8,92.8 L333.9,158.5 L339.9,32.9 L345.9,68.0 L352.0,48.4 L358.0,40.9 L364.1,93.7 L370.1,213.3 L376.1,226.8 L382.2,50.6 L388.2,55.7 L394.3,48.7 L400.3,52.6 L406.3,83.1 L412.4,165.3 L418.4,54.0 L424.5,45.6 L430.5,66.4 L436.5,49.7 L442.6,48.6 L448.6,82.2 L454.7,74.0 L460.7,201.0 L466.7,62.4 L472.8,46.2 L478.8,172.1 L484.9,39.1 L490.9,72.4 L496.9,77.0 L503.0,55.9 L509.0,64.9 L515.1,117.9 L521.1,221.1 L527.1,204.2 L533.2,161.6 L539.2,145.1 L545.3,180.1 L551.3,228.6 L557.3,200.9 L563.4,187.5 L569.4,35.0 L575.5,64.8 L581.5,48.0 L587.5,39.5 L593.6,36.2 L599.6,68.4 L605.7,54.4 L611.7,40.8 L617.7,64.6 L623.8,52.9 L629.8,30.0 L635.9,60.1 L641.9,79.8 L647.9,50.7 L654.0,79.0 L660.0,87.2 L666.1,57.4 L672.1,57.9 L678.1,48.9 L684.2,92.7 L690.2,85.7 L696.3,72.1 L702.3,108.8 L708.3,94.6 L714.4,94.3 L720.4,65.2 L726.5,57.0 L732.5,64.0 L738.6,63.7 L744.6,91.1 L750.6,62.2 L756.7,48.8 L762.7,58.4 L768.8,81.2 L774.8,53.0' fill='none' stroke='#f97316' stroke-width='2.4' stroke-dasharray='6 4'/><path d='M780.8,56.1 L786.9,133.4 L792.9,121.5 L799.0,143.5 L805.0,124.0 L811.0,171.9 L817.1,141.6 L823.1,140.2 L829.2,100.3 L835.2,94.8 L841.2,129.4 L847.3,113.9 L853.3,133.9 L859.4,123.2 L865.4,105.1 L871.4,113.4 L877.5,114.4 L883.5,80.2 L889.6,91.9 L895.6,127.8 L901.6,101.0 L907.7,111.8 L913.7,127.2 L919.8,119.4 L925.8,91.9 L931.8,99.4 L937.9,101.7 L943.9,87.8 L950.0,115.6 L956.0,136.0' fill='none' stroke='#0f766e' stroke-width='2.8'/><rect x='645' y='14' width='12' height='12' fill='#2563eb'/><text x='664' y='25'>Real reciente</text><rect x='755' y='14' width='12' height='12' fill='#f97316'/><text x='774' y='25'>Validacion</text><rect x='855' y='14' width='12' height='12' fill='#0f766e'/><text x='874' y='25'>Pronostico</text><text x='56' y='316'>24/02/2026</text><text x='956' y='316' text-anchor='end'>23/07/2026</text></svg>
+    </section>
+    <section class="grid">
+      <div class="panel">
+        <h2>Variables más importantes</h2>
+        <table><thead><tr><th>Variable</th><th>Importancia</th></tr></thead><tbody><tr><td>eventos_lag_1d</td><td><div class='bar'><span style='width:100.0%'></span><b>345.956</b></div></td></tr><tr><td>lag_1d</td><td><div class='bar'><span style='width:88.4%'></span><b>305.713</b></div></td></tr><tr><td>cos_dia</td><td><div class='bar'><span style='width:31.8%'></span><b>110.142</b></div></td></tr><tr><td>max_28d</td><td><div class='bar'><span style='width:26.4%'></span><b>91.172</b></div></td></tr><tr><td>semana_anio</td><td><div class='bar'><span style='width:24.8%'></span><b>85.892</b></div></td></tr><tr><td>media_28d</td><td><div class='bar'><span style='width:24.3%'></span><b>84.121</b></div></td></tr><tr><td>dias_desde_inicio</td><td><div class='bar'><span style='width:23.5%'></span><b>81.357</b></div></td></tr><tr><td>eventos_lag_14d</td><td><div class='bar'><span style='width:23.1%'></span><b>80.046</b></div></td></tr><tr><td>eventos_lag_2d</td><td><div class='bar'><span style='width:23.1%'></span><b>79.830</b></div></td></tr><tr><td>eventos_media_28d</td><td><div class='bar'><span style='width:22.2%'></span><b>76.763</b></div></td></tr><tr><td>lag_2d</td><td><div class='bar'><span style='width:21.8%'></span><b>75.572</b></div></td></tr><tr><td>sin_dia</td><td><div class='bar'><span style='width:21.7%'></span><b>75.046</b></div></td></tr></tbody></table>
+      </div>
+      <div class="panel">
+        <h2>Pronóstico próximos 30 días</h2>
+        <table><thead><tr><th>Fecha</th><th>Horas de paro predichas</th></tr></thead><tbody><tr><td>2026-06-24</td><td>21.81</td></tr><tr><td>2026-06-25</td><td>14.48</td></tr><tr><td>2026-06-26</td><td>15.61</td></tr><tr><td>2026-06-27</td><td>13.52</td></tr><tr><td>2026-06-28</td><td>15.37</td></tr><tr><td>2026-06-29</td><td>10.82</td></tr><tr><td>2026-06-30</td><td>13.70</td></tr><tr><td>2026-07-01</td><td>13.83</td></tr><tr><td>2026-07-02</td><td>17.62</td></tr><tr><td>2026-07-03</td><td>18.14</td></tr><tr><td>2026-07-04</td><td>14.86</td></tr><tr><td>2026-07-05</td><td>16.32</td></tr><tr><td>2026-07-06</td><td>14.42</td></tr><tr><td>2026-07-07</td><td>15.45</td></tr><tr><td>2026-07-08</td><td>17.16</td></tr><tr><td>2026-07-09</td><td>16.38</td></tr><tr><td>2026-07-10</td><td>16.28</td></tr><tr><td>2026-07-11</td><td>19.52</td></tr><tr><td>2026-07-12</td><td>18.41</td></tr><tr><td>2026-07-13</td><td>15.01</td></tr><tr><td>2026-07-14</td><td>17.55</td></tr><tr><td>2026-07-15</td><td>16.53</td></tr><tr><td>2026-07-16</td><td>15.06</td></tr><tr><td>2026-07-17</td><td>15.80</td></tr><tr><td>2026-07-18</td><td>18.42</td></tr><tr><td>2026-07-19</td><td>17.70</td></tr><tr><td>2026-07-20</td><td>17.48</td></tr><tr><td>2026-07-21</td><td>18.80</td></tr><tr><td>2026-07-22</td><td>16.16</td></tr><tr><td>2026-07-23</td><td>14.23</td></tr></tbody></table>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>Lectura del modelo</h2>
+      <p class="note">Elegí predecir horas de paro diarias porque conecta directamente con mantenimiento, capacidad perdida y priorización operativa. El modelo se validó con separación temporal: entrena con el primer 80% de los días disponibles y prueba contra el 20% más reciente. Como referencia, una línea base simple usando media móvil de 28 días tuvo MAE 7.83 h y RMSE 9.18 h.</p>
+      <p class="note">El pronóstico es una estimación estadística, no una garantía operativa. Para mejorarlo se pueden agregar variables externas como plan de producción, turnos, mantenimiento preventivo, disponibilidad de materiales, clima, dotación y cambios de presentación programados.</p>
+    </section>
+  </main>
+</body>
+</html>
